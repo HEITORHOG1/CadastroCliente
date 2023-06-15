@@ -1,9 +1,11 @@
-﻿using CadastroCliente.Infra.IRepository;
+﻿using CadastroCliente.Infra.Contexts;
+using CadastroCliente.Infra.IRepository;
 using CadastroCliente.Infra.Repository;
 using CadastroCliente.Model;
 using CadastroCliente.Services.Services;
 using CadastroCliente.Services.Validators;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 
 namespace CadastroCliente.Api.Infra
 {
@@ -16,12 +18,20 @@ namespace CadastroCliente.Api.Infra
                 logging.AddConsole();
                 logging.AddDebug();
             });
+
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
             services.AddTransient<IValidator<User>, UserValidator>();
             services.AddTransient<UserValidator>();
+
+            // Add Identity services
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
+
             return services;
         }
+
     }
 }
 

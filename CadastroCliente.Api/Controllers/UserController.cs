@@ -2,9 +2,13 @@
 using CadastroCliente.Model;
 using Microsoft.AspNetCore.Mvc;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Security.Claims;
 
 namespace CadastroCliente.Api.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] // Adicione esta anotação para exigir autenticação com o esquema Bearer JWT
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -16,6 +20,16 @@ namespace CadastroCliente.Api.Controllers
             _userService = userService;
         }
 
+        [HttpGet("protected")]
+        public IActionResult ProtectedMethod()
+        {
+            // A autenticação foi bem-sucedida, o token é válido
+            // Você pode acessar informações do usuário autenticado através do objeto User
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            // Resto do código do método protegido
+            return Ok();
+        }
         /// <summary>
         /// Pesquisa usuários baseado em um critério de pesquisa
         /// </summary>
@@ -44,6 +58,7 @@ namespace CadastroCliente.Api.Controllers
         /// Obtém a lista de todos os usuários
         /// </summary>
         /// <returns>Retorna uma lista de todos os usuários</returns>
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
