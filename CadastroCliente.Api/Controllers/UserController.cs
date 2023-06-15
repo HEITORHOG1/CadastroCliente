@@ -58,7 +58,6 @@ namespace CadastroCliente.Api.Controllers
         /// Obtém a lista de todos os usuários
         /// </summary>
         /// <returns>Retorna uma lista de todos os usuários</returns>
-        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {

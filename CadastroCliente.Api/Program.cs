@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 using CadastroCliente.Api;
 
 var builder = WebApplication.CreateBuilder(args);

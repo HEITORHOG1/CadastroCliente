@@ -23,7 +23,10 @@ namespace CadastroCliente.Api.Controllers
             _configuration = configuration;
         }
 
-
+        /// <summary>
+        /// Register a new user
+        /// </summary>
+        /// <param name="model">The registration model</param>
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
@@ -39,6 +42,10 @@ namespace CadastroCliente.Api.Controllers
             return BadRequest(result.Errors);
         }
 
+        /// <summary>
+        /// Authenticate a user and generate a JWT token
+        /// </summary>
+        /// <param name="model">The login model</param>
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
@@ -54,6 +61,11 @@ namespace CadastroCliente.Api.Controllers
             return BadRequest("Invalid login attempt");
         }
 
+        /// <summary>
+        /// Generates a JWT token
+        /// </summary>
+        /// <param name="email">User's email</param>
+        /// <param name="user">User's information</param>
         private object GenerateJwtToken(string email, IdentityUser user)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));

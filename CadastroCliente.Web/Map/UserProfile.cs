@@ -10,6 +10,8 @@ namespace CadastroCliente.Web.Map
         {
             CreateMap<User, UserDTO>();
             CreateMap<UserDTO, User>();
+            CreateMap<LoginModel, LoginModelDTO>();
+            CreateMap<LoginModelDTO, LoginModel>();
         }
     }
 

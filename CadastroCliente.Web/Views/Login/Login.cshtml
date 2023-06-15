@@ -1,0 +1,20 @@
+﻿@model LoginModelDTO
+
+<h2>Login</h2>
+<hr />
+<h4>PARA LOGAR VOCÉ PRECISA CRIA SEU LOGIN VIA API - PRECISA DO TOKEN GERADO JWT</h4>
+<form asp-action="Login" asp-controller="Login" method="post">
+    <div class="form-group">
+        <label asp-for="Email">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div><hr />
+    <div class="form-group">
+        <input type="submit" value="Login" class="btn btn-primary" />
+    </div>
+</form>

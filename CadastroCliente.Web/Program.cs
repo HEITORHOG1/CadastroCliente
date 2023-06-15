@@ -1,3 +1,4 @@
+using CadastroCliente.Web.Services;
 using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,9 +8,21 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddHttpClient<ApiClient>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7069/");
+    client.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
 });
+builder.Services.AddLogging(loggingBuilder =>
+{
+    loggingBuilder.AddConsole();
+    loggingBuilder.AddApplicationInsights();
+
+});
+builder.Services.AddApplicationInsightsTelemetry();
+builder.Services.AddScoped<IApiClientFactory, ApiClientFactory>();
+
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -23,6 +36,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseSession();
+
 
 app.UseRouting();
 
