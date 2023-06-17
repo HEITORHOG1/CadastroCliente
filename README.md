@@ -1,4 +1,4 @@
-# Sistema de Registro de Usuários - CadastroCliente API
+# Sistema de Registro de Ordem de serviços - CadastroOrdem de Serviço API
 
 O sistema de registro de usuários, também conhecido como CadastroCliente API, é uma API RESTful que fornece serviços para gerenciar o cadastro de clientes.
 
