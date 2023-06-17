@@ -1,4 +1,5 @@
-﻿using CadastroCliente.Infra.Contexts;
+﻿
+using CadastroCliente.Infra.Contexts;
 using CadastroCliente.Infra.IRepository;
 using CadastroCliente.Infra.Repository;
 using CadastroCliente.Model;
@@ -21,8 +22,22 @@ namespace CadastroCliente.Api.Infra
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IClienteRepository, ClienteRepository>();
+            services.AddScoped<IClienteService, ClienteService>();
+            services.AddScoped<IServicoRepository, ServicoRepository>();
+            services.AddScoped<IServicoService, ServicoService>();
+            services.AddScoped<IOrdemServicoRepository, OrdemServicoRepository>();
+            services.AddScoped<IOrdemServicoService, OrdemServicoService>();
             services.AddTransient<IValidator<User>, UserValidator>();
+            services.AddTransient<IValidator<ClienteOrdemServicoModel>, ClienteOrdemServicoModelValidator>();
+            services.AddTransient<IValidator<OrdemDeServico>, OrdemDeServicoValidator>();
+            services.AddTransient<IValidator<Servico>, ServicoValidator>();
+            services.AddTransient<IValidator<Cliente>, ClienteValidator>();
             services.AddTransient<UserValidator>();
+            services.AddTransient<ClienteOrdemServicoModelValidator>();
+            services.AddTransient<OrdemDeServicoValidator>();
+            services.AddTransient<ServicoValidator>();
+            services.AddTransient<ClienteValidator>();
 
             // Add Identity services
             services.AddIdentity<ApplicationUser, IdentityRole>()

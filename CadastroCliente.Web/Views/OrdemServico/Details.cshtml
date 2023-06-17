@@ -1,0 +1,35 @@
+﻿@model ClienteOrdemServicoModelDTO
+
+<div class="container">
+    <h1>Detalhes do Cliente e Ordem de Serviço</h1>
+    <hr />
+    <div class="row">
+        <!-- Detalhes do Cliente -->
+        <div class="col-md-4">
+            <h3>Cliente</h3>
+            <p><strong>Nome:</strong> @Model.Cliente.Nome </p>
+            <p><strong>Endereço:</strong> @Model.Cliente.Endereco </p>
+            <p><strong>Telefone:</strong> @Model.Cliente.Telefone </p>
+            <p><strong>Email:</strong> @Model.Cliente.Email </p>
+        </div>
+
+        <!-- Detalhes da Ordem de Serviço -->
+        <div class="col-md-4">
+            <h3>Ordem de Serviço</h3>
+            <p><strong>Número:</strong> @Model.OrdemDeServico.Numero </p>
+            <p><strong>Data de Emissão:</strong> @Model.OrdemDeServico.DataEmissao.ToString("dd/MM/yyyy") </p>
+            <p><strong>Prazo de Execução:</strong> @Model.OrdemDeServico.PrazoExecucao.ToString("dd/MM/yyyy") </p>
+            <p><strong>Responsável:</strong> @Model.OrdemDeServico.Responsavel </p>
+            <p><strong>Data de Conclusão:</strong> @(Model.OrdemDeServico.DataConclusao?.ToString("dd/MM/yyyy") ?? "-") </p>
+            <p><strong>Valor:</strong> @(Model.OrdemDeServico.Valor?.ToString("N2") ?? "-") </p>
+        </div>
+
+        <!-- Detalhes do Serviço -->
+        <div class="col-md-4">
+            <h3>Serviço</h3>
+            <p><strong>Descrição:</strong> @Model.Servico.Descricao </p>
+            <p><strong>Materiais:</strong> @Model.Servico.Materiais </p>
+            <p><strong>Instruções:</strong> @Model.Servico.Instrucoes </p>
+        </div>
+    </div>
+</div>

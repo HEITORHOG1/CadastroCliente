@@ -3,6 +3,7 @@ using System;
 using CadastroCliente.Infra.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CadastroCliente.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230615234042_criando2")]
+    partial class criando2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,10 +171,9 @@ namespace CadastroCliente.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<decimal?>("Valor")
-                        .HasColumnType("decimal(65,30)");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("OrdensDeServico");
                 });
@@ -198,6 +200,8 @@ namespace CadastroCliente.Infra.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrdemDeServicoId");
 
                     b.ToTable("Servicos");
                 });
@@ -365,6 +369,28 @@ namespace CadastroCliente.Infra.Migrations
                     b.Navigation("AspNetRole");
                 });
 
+            modelBuilder.Entity("CadastroCliente.Model.OrdemDeServico", b =>
+                {
+                    b.HasOne("CadastroCliente.Model.Cliente", "Cliente")
+                        .WithMany("OrdensDeServico")
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+                });
+
+            modelBuilder.Entity("CadastroCliente.Model.Servico", b =>
+                {
+                    b.HasOne("CadastroCliente.Model.OrdemDeServico", "OrdemDeServico")
+                        .WithMany("Servicos")
+                        .HasForeignKey("OrdemDeServicoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrdemDeServico");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("CadastroCliente.Model.ApplicationRole", null)
@@ -414,6 +440,16 @@ namespace CadastroCliente.Infra.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CadastroCliente.Model.Cliente", b =>
+                {
+                    b.Navigation("OrdensDeServico");
+                });
+
+            modelBuilder.Entity("CadastroCliente.Model.OrdemDeServico", b =>
+                {
+                    b.Navigation("Servicos");
                 });
 #pragma warning restore 612, 618
         }

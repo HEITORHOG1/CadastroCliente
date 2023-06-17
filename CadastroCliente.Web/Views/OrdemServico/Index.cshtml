@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ClienteOrdemServicoModelDTO>
+
+@{
+    ViewData["Title"] = "Ordem de Serviços";
+}
+
+<div class="container-fluid mt-4">
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewBag.ErrorMessage
+        </div>
+    }
+
+    <h1 class="mb-4">@ViewData["Title"]</h1>
+    <form asp-action="Pesquisar">
+        <div class="input-group mb-4">
+            <input type="text" class="form-control" name="termoBusca" placeholder="Pesquisar... Por Nome ou E-mail ou Tel" aria-label="Pesquisar">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Pesquisar</button>
+            </div>
+        </div>
+    </form>
+
+
+    <a href="@Url.Action("Create", "OrdemServico")" class="btn btn-success mb-4">Criar nova ordem de serviço</a>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.First().Cliente.Id)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().Cliente.Nome)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().Cliente.Endereco)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().Cliente.Telefone)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().Cliente.Email)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().OrdemDeServico.DataEmissao)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().OrdemDeServico.PrazoExecucao)</th>
+                    <th>@Html.DisplayNameFor(model => model.First().OrdemDeServico.Responsavel)</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var ordem in Model)
+                {
+                    <tr>
+                        <td style="white-space: nowrap;">@ordem.Cliente.Id</td>
+                        <td style="white-space: nowrap;">@ordem.Cliente.Nome</td>
+                        <td style="white-space: nowrap;">@ordem.Cliente.Endereco</td>
+                        <td style="white-space: nowrap;">@ordem.Cliente.Telefone</td>
+                        <td style="white-space: nowrap;">@ordem.Cliente.Email</td>
+                        <td style="white-space: nowrap;">@ordem.OrdemDeServico?.DataEmissao.ToString("dd/MM/yyyy")</td>
+                        <td style="white-space: nowrap;">@ordem.OrdemDeServico?.PrazoExecucao.ToString("dd/MM/yyyy")</td>
+                        <td style="white-space: nowrap;">@ordem.OrdemDeServico?.Responsavel</td>
+                        <td style="white-space: nowrap;">
+                            <a href="@Url.Action("Update", "OrdemServico", new { id = ordem.OrdemDeServico?.Id })" class="btn btn-primary btn-sm">Editar</a>
+                            <a href="@Url.Action("Details", "OrdemServico", new { id = ordem.OrdemDeServico?.Id })" class="btn btn-info btn-sm">Detalhes</a>
+@*                            <a href="@Url.Action("Delete", "OrdemServico", new { id = ordem.OrdemDeServico?.Id })" class="btn btn-danger btn-sm">Deletar</a>
+*@                        </td>
+                    </tr>
+                }
+            </tbody>
+
+
+        </table>
+    </div>
+</div>

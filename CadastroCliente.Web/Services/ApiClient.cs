@@ -17,6 +17,22 @@ public class ApiClient
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _jwtToken);
         }
     }
+    public async Task<T> GetAsync<T>(string requestUri, string searchTerm)
+    {
+        var response = await _httpClient.GetAsync($"{requestUri}?termoBusca={searchTerm}");
+
+        var content = await response.Content.ReadAsStringAsync();
+
+        // Imprima o conteúdo da resposta em caso de falha
+        if (!response.IsSuccessStatusCode)
+        {
+            Console.WriteLine("API call failed with response: " + content);
+        }
+        response.EnsureSuccessStatusCode();
+
+        return JsonConvert.DeserializeObject<T>(content);
+    }
+
 
 
     public async Task<T> GetAsync<T>(string requestUri)
@@ -33,17 +49,52 @@ public class ApiClient
         var contentJson = JsonConvert.SerializeObject(content);
         var httpContent = new StringContent(contentJson, Encoding.UTF8, "application/json");
 
-        return await _httpClient.PostAsync(requestUri, httpContent);
+        var response = await _httpClient.PostAsync(requestUri, httpContent);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            // Leia o conteúdo de erro como uma string
+            var errorContent = await response.Content.ReadAsStringAsync();
+
+            // Retorne a resposta com o conteúdo de erro
+            return new HttpResponseMessage
+            {
+                StatusCode = response.StatusCode,
+                ReasonPhrase = response.ReasonPhrase,
+                Content = new StringContent(errorContent, Encoding.UTF8, "application/json")
+            };
+        }
+
+        // Retorne a resposta bem-sucedida
+        return response;
     }
 
-    public async Task PutAsync<T>(string requestUri, T content)
+    public async Task<HttpResponseMessage> PutAsync<T>(string requestUri, T content)
     {
         var contentJson = JsonConvert.SerializeObject(content);
         var httpContent = new StringContent(contentJson, Encoding.UTF8, "application/json");
 
         var response = await _httpClient.PutAsync(requestUri, httpContent);
-        response.EnsureSuccessStatusCode();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            // Leia o conteúdo de erro como uma string
+            var errorContent = await response.Content.ReadAsStringAsync();
+
+            // Retorne a resposta com o conteúdo de erro
+            return new HttpResponseMessage
+            {
+                StatusCode = response.StatusCode,
+                ReasonPhrase = response.ReasonPhrase,
+                Content = new StringContent(errorContent, Encoding.UTF8, "application/json")
+            };
+        }
+
+        // Retorne a resposta bem-sucedida
+        return response;
     }
+
+
 
     public async Task DeleteAsync(string requestUri)
     {

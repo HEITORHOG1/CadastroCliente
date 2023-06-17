@@ -5,4 +5,55 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <h1 class="display-5">PROJETO COM BOAS PRATICAS DE DESENVOLVIMENTO</h1>
+
+    <h1>Sistema de Registro de Ordem de Serviços - CadastroOrdem de Serviço API</h1>
+    <hr />
+    <h1>PRECISAR CRIAR UM USUARIO VIA API LOGAR PARA UTILIZAR O SISTEMA</h1>
+    <h2>Características</h2>
+    <ul>
+        <li>Obter todos os usuários.</li>
+        <li>Obter detalhes de um único usuário.</li>
+        <li>Criar um novo usuário.</li>
+        <li>Atualizar detalhes de um usuário existente.</li>
+        <li>Deletar um usuário existente.</li>
+        <li>Pesquisar usuários.</li>
+        <li>Autenticação de usuários com JWT (Json Web Token).</li>
+        <li>Registro de logs de eventos e erros utilizando o Microsoft ILogger.</li>
+        <li>Integração com Azure Application Insights para análise de logs e telemetria.</li>
+    </ul>
+    <h2>Tecnologias</h2>
+    <ul>
+        <li><a href="https://dotnet.microsoft.com/download/dotnet/6.0">.NET 6</a></li>
+        <li><a href="https://www.mysql.com/">MySQL</a></li>
+        <li><a href="https://docs.microsoft.com/en-us/ef/core/">Entity Framework Core</a></li>
+        <li><a href="https://automapper.org/">AutoMapper</a></li>
+        <li><a href="https://swagger.io/tools/swagger-ui/">Swashbuckle (Swagger)</a></li>
+        <li><a href="https://docs.microsoft.com/en-us/dotnet/core/extensions/logging">Microsoft ILogger</a></li>
+        <li><a href="https://azure.microsoft.com/services/application-insights/">Azure Application Insights</a></li>
+    </ul>
+    <h2>Arquitetura e Estrutura de Projetos</h2>
+    <p>O projeto segue uma arquitetura baseada no padrão de design Clean Architecture, o qual visa a separação de responsabilidades, desacoplamento e a facilitação de testes automatizados. O projeto está estruturado em camadas, conforme segue:</p>
+    <ul>
+        <li><strong>CadastroCliente.Api:</strong> Camada de apresentação da API, responsável pelo tratamento de requisições HTTP e respostas.</li>
+        <li><strong>CadastroCliente.Services:</strong> Camada de serviços, contendo a lógica de negócio principal.</li>
+        <li><strong>CadastroCliente.Model:</strong> Camada que contém as classes de domínio do projeto.</li>
+        <li><strong>CadastroCliente.Data:</strong> Camada de acesso a dados, responsável pela persistência e recuperação de dados.</li>
+    </ul>
+    <h2>Documentação da API</h2>
+    <p>A documentação da API está disponível através do Swagger UI, que pode ser acessado ao executar o projeto localmente e navegando para o endpoint <code>/swagger</code>.</p>
+    <h2>Como Usar</h2>
+    <p>Certifique-se de ter a versão apropriada do .NET Core SDK instalada em seu sistema. Além disso, você precisará de um servidor MySQL em execução e uma chave de instrumentação do Azure Application Insights.</p>
+    <ol>
+        <li>Clone este repositório para sua máquina local.</li>
+        <li>Navegue até o diretório do projeto via terminal.</li>
+        <li>Execute <code>dotnet restore</code> para restaurar os pacotes necessários.</li>
+        <li>Configure a string de conexão para o seu servidor MySQL no arquivo <code>appsettings.json</code>.</li>
+        <li>Adicione a chave de instrumentação do Azure Application Insights ao arquivo <code>appsettings.json</code>.</li>
+        <li>Execute <code>dotnet run</code> para iniciar a aplicação.</li>
+    </ol>
+    <p>A aplicação estará disponível no endereço <code>http://localhost:5000</code> (ou <code>https://localhost:7069/</code> para HTTPS).</p>
+    <h2>Contribuição</h2>
+    <p>Para contribuir com o projeto, faça um fork do repositório, faça suas alterações e envie um pull request. As alterações serão revisadas e incorporadas conforme apropriado.</p>
+    <h2>Licença</h2>
+    <p>Este projeto está sob a licença XYZ. Veja o arquivo <code>LICENSE</code> para mais detalhes.</p>
 </div>

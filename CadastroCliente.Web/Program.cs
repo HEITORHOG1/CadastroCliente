@@ -1,7 +1,15 @@
+using CadastroCliente.Model;
+using CadastroCliente.Web.Models;
 using CadastroCliente.Web.Services;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+builder.Services.Configure<MvcOptions>(options =>
+{
+    options.Filters.Add(new ErrorFilter());
+});
 
 // Register AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -30,13 +38,16 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+    app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseExceptionHandler("/Home/Error");
+app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseSession();
+
 
 
 app.UseRouting();
