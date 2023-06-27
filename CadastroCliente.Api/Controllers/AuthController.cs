@@ -89,7 +89,5 @@ namespace CadastroCliente.Api.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
-
     }
 }

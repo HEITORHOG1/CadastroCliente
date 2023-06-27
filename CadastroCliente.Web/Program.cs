@@ -1,4 +1,5 @@
 using CadastroCliente.Model;
+using CadastroCliente.Services.Services;
 using CadastroCliente.Web.Models;
 using CadastroCliente.Web.Services;
 using Microsoft.AspNetCore.Hosting;
@@ -18,14 +19,20 @@ builder.Services.AddHttpClient<ApiClient>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
 });
+
+string cepUrl = builder.Configuration["CepUrl"];
+
 builder.Services.AddLogging(loggingBuilder =>
 {
     loggingBuilder.AddConsole();
     loggingBuilder.AddApplicationInsights();
-
 });
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddScoped<IApiClientFactory, ApiClientFactory>();
+builder.Services.AddScoped<ICepService, CepService>();
+
+builder.Services.AddScoped<IApiConfigService, ApiConfigService>(); // implementação concreta de IApiConfigService
+
 
 builder.Services.AddControllersWithViews();
 

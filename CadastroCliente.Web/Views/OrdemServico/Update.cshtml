@@ -58,9 +58,16 @@
                     <input asp-for="OrdemDeServico.DataEmissao" type="date" class="form-control" />
                 </div>
                 <div class="form-group">
-                    <label asp-for="OrdemDeServico.Responsavel"></label>
-                    <input asp-for="OrdemDeServico.Responsavel" class="form-control" />
+                    <select asp-for="OrdemDeServico.Responsavel" class="form-control">
+                        <option value="">Selecione um responsável</option>
+                        @foreach (var user in Model.Users)
+                        {
+                            <option value="@user.Name" selected="@(Model.OrdemDeServico.Responsavel == user.Name.ToString())">@user.Name</option>
+                        }
+                    </select>
                 </div>
+
+
             </div>
 
             <div class="col-md-6">

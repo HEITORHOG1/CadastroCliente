@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CadastroCliente.Model\CadastroCliente.Model.csproj" />
+    <ProjectReference Include="..\CadastroCliente.Services\CadastroCliente.Services.csproj" />
   </ItemGroup>
 
 </Project>

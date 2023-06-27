@@ -13,5 +13,7 @@ namespace CadastroCliente.Web.Models
         public ClienteDTO Cliente { get; set; }
         public OrdemDeServicoDTO OrdemDeServico { get; set; }
         public ServicoDTO Servico { get; set; }
+
+        public IEnumerable<UserDTO> Users { get; set; }
     }
 }

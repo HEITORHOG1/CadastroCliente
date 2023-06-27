@@ -101,4 +101,19 @@ public class ApiClient
         var response = await _httpClient.DeleteAsync(requestUri);
         response.EnsureSuccessStatusCode();
     }
+
+    public TService CreateClient<TService>() where TService : class
+    {
+        // Atribua uma instância do HttpClient ao serviço. Isto pode não funcionar
+        // da maneira que você espera, já que geralmente um HttpClient é usado diretamente
+        // para fazer chamadas HTTP, e não é passado para uma interface de serviço.
+        var serviceInstance = Activator.CreateInstance(typeof(TService), _httpClient);
+
+        if (serviceInstance is TService service)
+        {
+            return service;
+        }
+
+        throw new InvalidOperationException($"Cannot create client for type {typeof(TService).FullName}");
+    }
 }

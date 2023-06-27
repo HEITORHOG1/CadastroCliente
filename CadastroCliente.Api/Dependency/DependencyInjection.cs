@@ -38,6 +38,9 @@ namespace CadastroCliente.Api.Infra
             services.AddTransient<OrdemDeServicoValidator>();
             services.AddTransient<ServicoValidator>();
             services.AddTransient<ClienteValidator>();
+            services.AddScoped<IApiConfigService, ApiConfigService>();
+            services.AddScoped<ICepService, CepService>();
+            services.AddHttpClient<ICepService, CepService>();
 
             // Add Identity services
             services.AddIdentity<ApplicationUser, IdentityRole>()

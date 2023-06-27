@@ -20,6 +20,7 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.MaxDepth = 0;
     });
 
+string cepUrl = builder.Configuration["CepUrl"];
 
 var configuration = new ConfigurationBuilder()
     .SetBasePath(builder.Environment.ContentRootPath)

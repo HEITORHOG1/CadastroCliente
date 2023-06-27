@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using CadastroCliente.Services.Services;
 using CadastroCliente.Web.Models;
 using CadastroCliente.Web.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.Design;
+using System.Net;
 using System.Net.Http;
 
 namespace CadastroCliente.Web.Controllers
@@ -119,12 +122,39 @@ namespace CadastroCliente.Web.Controllers
         }
 
 
-
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View("Create");
+            _logger.LogInformation("Received a request to view the User index");
+
+            var apiClient = _apiClientFactory.Create(_jwtToken);
+
+            List<UserDTO> users;
+
+            try
+            {
+                _logger.LogInformation("Requesting list of all users");
+                users = await apiClient.GetAsync<List<UserDTO>>("api/User");
+            }
+            catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                _logger.LogError("Unauthorized request");
+                ModelState.AddModelError("", "Please log in to continue.");
+                return RedirectToAction("Login", "Login");
+            }
+
+            var model = new ClienteOrdemServicoModelDTO
+            {
+                Users = users
+                // aqui você também inicializa Cliente, OrdemDeServico e Servico, se necessário
+            };
+
+            return View("Create", model);
         }
+
+
+
+
         [HttpPost]
         public async Task<IActionResult> Create(IFormCollection formCollection)
         {
@@ -207,12 +237,25 @@ namespace CadastroCliente.Web.Controllers
             try
             {
                 var apiClient = _apiClientFactory.Create(_jwtToken);
+
+                // Obter OrdemDeServico
                 var ordemDeServico = await apiClient.GetAsync<ClienteOrdemServicoModelDTO>($"api/Cliente/{id}");
 
                 if (ordemDeServico == null)
                 {
                     return NotFound();
                 }
+
+                // Obter a lista de usuários
+                var users = await apiClient.GetAsync<List<UserDTO>>("api/User");
+
+                if (users == null)
+                {
+                    // Trate o caso onde a lista de usuários não é obtida corretamente
+                }
+
+                // Adicionar usuários à OrdemDeServico
+                ordemDeServico.Users = users;
 
                 return View("Update", ordemDeServico);
             }
@@ -223,6 +266,7 @@ namespace CadastroCliente.Web.Controllers
                 return View("Error"); // Retorna a view de erro
             }
         }
+
 
 
         [HttpPost]
@@ -339,6 +383,25 @@ namespace CadastroCliente.Web.Controllers
                 _logger.LogError(ex, $"An error occurred while trying to delete the User with ID {id}.");
                 TempData["ErrorMessage"] = "Ocorreu um erro ao tentar excluir o usuário. Por favor, tente novamente mais tarde.";
                 return View("Error"); // Retorna a view de erro
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAddressByPostalCode(string postalCode)
+        {
+            try
+            {
+                // Call CEP service
+                var cepService = _apiClientFactory.CreateClient<ICepService>();
+                var cepDetails = await cepService.GetCep(postalCode);
+
+                // Return address in JSON format
+                return Json(new { address = cepDetails?.Logradouro });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error getting address by postal code");
+                return Json(new { address = string.Empty });
             }
         }
 
